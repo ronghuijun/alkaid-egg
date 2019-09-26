@@ -24,3 +24,13 @@ exports.cors = {
   enable: true,
   package: 'egg-cors',
 }
+
+exports.passportGithub = {
+  enable: true,
+  package: 'egg-passport-github',
+};
+
+exports.passport = {
+  enable: true,
+  package: 'egg-passport',
+};
