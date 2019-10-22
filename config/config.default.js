@@ -11,18 +11,17 @@ module.exports = appInfo => {
   config.middleware = ['errorHandler'];
 
   // 只对 /api 前缀的 url 路径生效
-  // config.errorHandler = {
-  //   match: '/api',
-  // }
-  // config.security = {
-  //   csrf: {
-  //     enable: false,
-  //   },
-  //   domainWhiteList: [
-  //     '*',
-  //     'https://github.com',
-  //   ],
-  // };
+  config.errorHandler = {
+    match: '/api',
+  }
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+    domainWhiteList: [
+      '*'
+    ],
+  };
   
   config.multipart = {
     fileExtensions: ['.apk', '.pptx', '.docx', '.csv', '.doc', '.ppt', '.pdf', '.pages', '.wav', '.mov'], // 增加对 .apk 扩展名的支持
