@@ -1,13 +1,12 @@
 module.exports = app => {
   const mongoose = app.mongoose
-  const UserSchema = new mongoose.Schema({
-    mobile: { type: String, unique: true, required: true },
+  const schema = new mongoose.Schema({
+    name: { type: String, unique: true, required: true },
+    userName: { type: String ,default:"未命名"},
     password: { type: String, required: true },
-    realName: { type: String, required: true },
-    role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
+    email: { type: String, required: true },
     avatar: { type: String, default: 'https://1.gravatar.com/avatar/a3e54af3cb6e157e496ae430aed4f4a3?s=96&d=mm'},
-    extra: { type: mongoose.Schema.Types.Mixed },
     createdAt: { type: Date, default: Date.now }
   })
-  return mongoose.model('User', UserSchema)
+  return mongoose.model('User', schema)
 }
