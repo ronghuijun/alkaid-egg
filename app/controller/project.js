@@ -11,6 +11,16 @@ class ProjectController extends Controller {
 
         ctx.helper.success({ctx, res})
     }
+
+    async get() {
+        const { ctx, service } = this
+
+        const payload = ctx.request.body || {}
+        
+        const res = await service.project.findOne(payload)
+
+        ctx.helper.success({ctx, res})
+    }
 }
 
 module.exports = ProjectController

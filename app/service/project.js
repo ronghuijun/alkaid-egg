@@ -9,6 +9,12 @@ class ProjectService extends Service {
     return ctx.model.Project.create(payload)
   }  
 
+  async findOne(payload) {
+    const { ctx, service } = this
+    // user.password = await this.ctx.genHash(user.password)
+    return ctx.model.Project.findOne(payload)
+  }
+
 }
 
 module.exports = ProjectService
