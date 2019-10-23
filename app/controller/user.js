@@ -10,6 +10,16 @@ class UserController extends Controller {
 
         ctx.helper.success({ctx, res})
     }
+
+    async create() {
+        const { ctx, service } = this
+
+        const payload = ctx.request.body || {}
+        
+        const res = await service.user.create(payload)
+
+        ctx.helper.success({ctx, res})
+    }
 }
 
 module.exports = UserController

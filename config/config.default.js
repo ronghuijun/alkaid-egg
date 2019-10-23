@@ -22,7 +22,7 @@ module.exports = appInfo => {
       '*'
     ],
   };
-  
+
   config.multipart = {
     fileExtensions: ['.apk', '.pptx', '.docx', '.csv', '.doc', '.ppt', '.pdf', '.pages', '.wav', '.mov'], // 增加对 .apk 扩展名的支持
   };
@@ -39,7 +39,7 @@ module.exports = appInfo => {
       bufferMaxEntries: 0,
     },
   };
-  
+
   config.session = {
     key: 'SESSION_ID',
     maxAge: 1000 * 60 * 60 * 24 * 3,
@@ -50,7 +50,8 @@ module.exports = appInfo => {
 
   config.jwt = {
     secret: 'Great4-M',
-    enable: true, 
+    time: 60 * 60,
+    enable: true,
     match: '/jwt',
   }
 
