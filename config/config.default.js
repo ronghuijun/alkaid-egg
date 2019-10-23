@@ -45,7 +45,7 @@ module.exports = appInfo => {
     maxAge: 1000 * 60 * 60 * 24 * 3,
     httpOnly: true,
     encrypt: true,
-    renew: true //延长会话有效期
+    renew: true 
   };
 
   config.jwt = {
