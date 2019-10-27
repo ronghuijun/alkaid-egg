@@ -1,5 +1,5 @@
 const moment = require('moment')
-
+const crypto = require('crypto');
 // 格式化时间
 exports.formatTime = time => moment(time).format('YYYY-MM-DD HH:mm:ss')
 
@@ -13,20 +13,35 @@ exports.success = ({ ctx, res = null, msg = '请求成功' }) => {
   ctx.status = 200
 }
 
-
-exports.jwt_sign = (data) => {
-  const token = app.jwt.sign({ data: data, time: Math.floor(Date.now() / 1000) + app.config.jwt.time }, app.config.jwt.secret);
-  return token;
+exports.no_login = ({ ctx, res = null, msg = '没有登录' }) => {
+  ctx.body = {
+    code: -1,
+    data: res,
+    msg
+  }
+  ctx.status = 200
 }
 
-exports.jwt_verify = async (token) => {
-  let data;
-  await jwt.verify(token, app.config.jwt.secret, function (err, decoded) {
-    if (err)
-      throw "token error";
-    if (decoded.time < Math.floor(Date.now() / 1000))
-      throw "thoken exceed";
-    data = decoded.data;
-  });
-  return data;
+exports.can_not_login = ({ ctx, res = null, msg = '用户名或密码错误' }) => {
+  ctx.body = {
+    code: 100,
+    data: res,
+    msg
+  }
+  ctx.status = 200
+}
+
+
+exports.exist_name = ({ ctx, res = null, msg = '用户名已经存在' }) => {
+  ctx.body = {
+    code: 110,
+    data: res,
+    msg
+  }
+  ctx.status = 200
+}
+
+exports.md5 = (password)=> {
+  var md5 = crypto.createHash('md5');
+  return md5.update(password).digest('hex');
 }
