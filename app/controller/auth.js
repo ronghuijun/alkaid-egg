@@ -1,10 +1,10 @@
-const Controller = require('egg').Controller
+const Controller = require('egg').Controller;
 
 class AuthController extends Controller {
     async login() {
-        const { ctx, service } = this
-        const payload = ctx.request.body || {}
-        payload.password = ctx.helper.md5(payload.password)
+        const { ctx, service } = this;
+        const payload = ctx.request.body || {};
+        payload.password = ctx.helper.md5(payload.password);
         const user = await service.user.findOneByAuth(payload.name,payload.password);
         const res = {};
         if(user){
@@ -18,27 +18,27 @@ class AuthController extends Controller {
     }
 
     async logout() {
-        const { ctx, service } = this
+        const { ctx, service } = this;
         this.ctx.session.userId = undefined;
-        const res = {}
+        const res = {};
         ctx.helper.success({ctx, res})
     }
 
     async register() {
-        const { ctx, service } = this
-        const payload = ctx.request.body || {}
-        payload.password = ctx.helper.md5(payload.password)
+        const { ctx, service } = this;
+        const payload = ctx.request.body || {};
+        payload.password = ctx.helper.md5(payload.password);
         const user = await service.user.findOneByName(payload.name);
         if(user){
-            let res = {}
+            let res = {};
             ctx.helper.exist_name({ctx,res})
         }
         else{
-            const res = service.user.createByAuth(payload.name,payload.password,payload.email)
+            const res = service.user.createByAuth(payload.name,payload.password,payload.email);
             ctx.session.userId = res._id;
             ctx.helper.success({ctx,res})
         }
     }
 }
 
-module.exports = AuthController
+module.exports = AuthController;

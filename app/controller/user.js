@@ -1,19 +1,19 @@
-const Controller = require('egg').Controller
+const Controller = require('egg').Controller;
 
 class UserController extends Controller {
     async update() {
-        const { ctx, service } = this
+        const { ctx, service } = this;
 
-        const payload = ctx.request.body || {}
+        const payload = ctx.request.body || {};
         if(ctx.session.userId){
-            const res = await service.user.update(ctx.session.userId,payload)
+            const res = await service.user.update(ctx.session.userId,payload);
             ctx.helper.success({ctx, res})
         }
         else{
-            const res = {}
+            const res = {};
             ctx.helper.no_login({ctx, res})
         }
     }
 }
 
-module.exports = UserController
+module.exports = UserController;
