@@ -1,20 +1,6 @@
 const Service = require('egg').Service;
 
 class UserService extends Service {
-  async create(payload) {
-    const { ctx, service } = this;
-    return ctx.model.User.create(payload)
-  }
-
-  async findOne(payload) {
-    const { ctx, service } = this;
-    return ctx.model.User.findOne(payload)
-  }
-
-  async findOneByName(name) {
-    const { ctx, service } = this;
-    return ctx.model.User.findOne({ name: name })
-  }
 
   async findOneByAuth(name, password) {
     const { ctx, service } = this;

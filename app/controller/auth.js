@@ -8,7 +8,7 @@ class AuthController extends Controller {
         const user = await service.user.findOneByAuth(payload.name,payload.password);
         const res = {};
         if(user){
-            ctx.session.userId = user._id;
+            ctx.session.user = user.name;
             ctx.helper.success({ctx, res})
         }
         else {
@@ -19,7 +19,7 @@ class AuthController extends Controller {
 
     async logout() {
         const { ctx, service } = this;
-        this.ctx.session.userId = undefined;
+        this.ctx.session.user = undefined;
         const res = {};
         ctx.helper.success({ctx, res})
     }

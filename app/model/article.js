@@ -8,5 +8,5 @@ module.exports = app => {
         commentNum:  {type: Number, required: true,default: 0},
         createdAt: { type: Date, default: Date.now }
     });
-    return mongoose.model('Blog', schema)
+    return mongoose.model('Article', schema)
 };

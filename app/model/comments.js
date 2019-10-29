@@ -7,5 +7,5 @@ module.exports = app => {
         detile: {type: String, required: true},
         createdAt: {type: Date, default: Date.now}
     });
-    return mongoose.model('Comments', schema)
+    return mongoose.model('Comment', schema)
 };
