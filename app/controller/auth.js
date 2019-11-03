@@ -1,44 +1,33 @@
 const Controller = require('egg').Controller;
 
-class AuthController extends Controller {
+class UserController extends Controller {
     async login() {
         const { ctx, service } = this;
+        //TODO:验证密码
         const payload = ctx.request.body || {};
-        payload.password = ctx.helper.md5(payload.password);
-        const user = await service.user.findOneByAuth(payload.name,payload.password);
-        const res = {};
-        if(user){
-            ctx.session.user = user.name;
-            ctx.helper.success({ctx, res})
-        }
-        else {
-            ctx.helper.can_not_login({ctx, res})
-        }
-
-    }
-
-    async logout() {
-        const { ctx, service } = this;
-        this.ctx.session.user = undefined;
-        const res = {};
-        ctx.helper.success({ctx, res})
-    }
-
-    async register() {
-        const { ctx, service } = this;
-        const payload = ctx.request.body || {};
-        payload.password = ctx.helper.md5(payload.password);
-        const user = await service.user.findOneByName(payload.name);
-        if(user){
-            let res = {};
-            ctx.helper.exist_name({ctx,res})
+        const ans = await service.user.findOneByAuth(payload.name,payload.pasword);
+        if(ans){
+            ctx.session.user = ans.name;
+            ctx.redirect('/')
         }
         else{
-            const res = service.user.createByAuth(payload.name,payload.password,payload.email);
-            ctx.session.userId = res._id;
-            ctx.helper.success({ctx,res})
+            await ctx.render("login.hbs",{error:1})  
+        }
+    }
+
+    async signup() {
+        const { ctx, service } = this;
+        //TODO:验证密码
+        const payload = ctx.request.body || {};
+        const ans = await service.user.createByAuth(payload.name,payload.password,payload.email);
+        if(ans){
+            ctx.session.user = ans.name;
+            ctx.redirect('/')
+        }
+        else{
+            await ctx.render("signup.hbs",{error:1})  
         }
     }
 }
 
-module.exports = AuthController;
+module.exports = UserController;

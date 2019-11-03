@@ -34,3 +34,9 @@ exports.cors = {
 //   enable: true,
 //   package: 'egg-passport',
 // };
+
+
+exports.handlebars = {
+  enable: true,
+  package: 'egg-view-handlebars',
+};

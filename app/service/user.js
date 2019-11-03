@@ -12,6 +12,11 @@ class UserService extends Service {
     return ctx.model.User.findOne({ _id: id })
   }
 
+  async findOneByName(name) {
+    const { ctx, service } = this;
+    return ctx.model.User.findOne({ name: name })
+  }
+
   async createByAuth(name, password, email) {
     const { ctx, service } = this;
     const user = { name: name, password: password, email: email };

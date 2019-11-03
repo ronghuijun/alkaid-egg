@@ -55,10 +55,12 @@ module.exports = appInfo => {
     match: '/jwt',
   }
 
-  // config/config.default.js
-  // config.passportGithub = {
-  //   key: 'd41e29d4a7440211157a',
-  //   secret: 'f1e0f96e82f7b2b53e3c8bf8216d850174577b8b',
-  // };
+  config.view = {
+    defaultViewEngine: 'handlebars',
+    defaultExtension: '.hbs',
+    mapping: {
+      '.hbs': 'handlebars',
+    },
+  };
   return config
 }
