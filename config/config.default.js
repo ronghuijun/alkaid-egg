@@ -45,7 +45,7 @@ module.exports = appInfo => {
     maxAge: 1000 * 60 * 60 * 24 * 3,
     httpOnly: true,
     encrypt: true,
-    renew: true 
+    renew: true
   };
 
   config.jwt = {
@@ -61,6 +61,17 @@ module.exports = appInfo => {
     mapping: {
       '.hbs': 'handlebars',
     },
-  };
+  }; 
+
+
+  config.redis = {
+    client: {
+      port: 6379,
+      host: 'server.jihuayu.site',
+      password: '',
+      db: 0,
+    },
+  }
+
   return config
 }

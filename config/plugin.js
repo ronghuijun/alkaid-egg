@@ -40,3 +40,10 @@ exports.handlebars = {
   enable: true,
   package: 'egg-view-handlebars',
 };
+
+
+
+exports.redis = {
+  enable: true,
+  package: 'egg-redis',
+};

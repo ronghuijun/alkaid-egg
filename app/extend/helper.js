@@ -1,9 +1,14 @@
 const moment = require('moment')
 const crypto = require('crypto');
-// 格式化时间
+const md = require('markdown-it')();
+const hljs = require('highlight.js')
+
+exports.render_md = (str)=>{
+  return md.render(str);
+}
+
 exports.formatTime = time => moment(time).format('YYYY-MM-DD HH:mm:ss')
 
-// 处理成功响应
 exports.success = ({ ctx, res = null, msg = '请求成功' }) => {
   ctx.body = {
     code: 0,
@@ -44,4 +49,17 @@ exports.exist_name = ({ ctx, res = null, msg = '用户名已经存在' }) => {
 exports.md5 = (password)=> {
   var md5 = crypto.createHash('md5');
   return md5.update(password).digest('hex');
+}
+
+exports.name2raw = (name)=>{
+  return `https://raw.githubusercontent.com/${name}/master/`
+}
+
+exports.md_render = (str)=>{
+  return  md.render(str);
+}
+
+exports.code_render = (str)=>{
+  console.log(hljs.highlightAuto(str).value)
+  return hljs.highlightAuto(str).value;
 }
