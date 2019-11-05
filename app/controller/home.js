@@ -30,3 +30,4 @@ class HomeController extends Controller {
 }
 
 module.exports = HomeController;
+docker run --name jenkins --user=root -p 8080:8080 -p 50000:50000 -v /opt/data/jenkins_home:/var/jenkins_home -d jenkins/jenkins:lts
