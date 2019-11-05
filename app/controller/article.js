@@ -68,7 +68,7 @@ class ArticleController extends Controller {
         const { ctx, app } = this;
         let url = await app.redis.get(ctx.host + "url");
         if (url) {
-            ctx.redirect('/auth/url')
+            ctx.redirect('/')
         }
         else {
             await ctx.render('url.hbs')
@@ -80,7 +80,7 @@ class ArticleController extends Controller {
         const payload = ctx.request.body || {};
         let url = await app.redis.get(ctx.host + "url");
         if (url) {
-            ctx.redirect('/auth/url')
+            ctx.redirect('/')
         }
         else {
             await app.redis.set(ctx.host + "url", payload.url);
