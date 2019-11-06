@@ -21,7 +21,10 @@ module.exports = (option, app) => {
         ctx.body.detail = err.errors
       }
       if (status === 504) {
-        ctx.body.detail = "请求超时"
+        ctx.body.detail = "504"
+      }
+      if (status === 404) {
+        ctx.body.detail = "404"
       }
       ctx.status = 200
     }

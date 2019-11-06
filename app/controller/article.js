@@ -2,87 +2,32 @@ const Controller = require('egg').Controller;
 
 class ArticleController extends Controller {
     async index() {
-        const { ctx, app } = this;
-        let url = await app.redis.get(ctx.host + "url");
-        if (url) {
-            let t = ctx.helper.name2raw(url);
-            let curl_url = `${t}${ctx.url}`;
-            let body //= await app.redis.get(`${url}${ctx.url}`);
-            let body_type = "html";
-            if (!body) {
-                body = (await ctx.curl(curl_url, {
-                    dataType: 'text',
-                    timeout: 3000
-                })).data
-                if (ctx.url.includes(".")) {
-                    if (ctx.url.endsWith('.md')) {
-                        body = ctx.helper.md_render(body)
-                        body_type = 'md'
-                    }
-                    else if (ctx.url.endsWith('.html')) {
-                        body_type = 'html'
-                    }
-                    else {
-                        body_type = 'code'
-                    }
-                }
-                else {
-                    let ans = (await ctx.curl(curl_url + "index.html", {
-                        dataType: 'text',
-                        timeout: 3000
-                    }))
-
-                    if (ans.status==200) {
-                        body_type = 'html'
-                        body = ans.data
-                    }
-                    else {
-                        let ans  = (await ctx.curl(curl_url + "index.md", {
-                            dataType: 'text',
-                            timeout: 3000
-                        }))
-                        if (ans.status==200) {
-                            body = ctx.helper.md_render(body)
-                            body_type = 'md'
-                            body = ans.data
-                        }
-                        else{
-                            ctx.redirect(`${ctx.url}README.md`)
-                        }
-                    }
-                }
-                app.redis.set(`${url}${ctx.url}`, body, 'ex', 60);
-            }
-            if (body_type == 'md') {
-                await ctx.render("md.hbs", { html: body })
-            }
-            else if (body_type == 'html') {
-                ctx.body = body;
-            }
-            else {
-                await ctx.render("code.hbs", { code: body })
-            }
+        const { ctx, service } = this;
+        const url = ctx.host;
+        let github = await service.github.getFromBase(url);
+        if (!github) {
+            ctx.redirect('/auth/url')
         }
         else {
-            ctx.redirect('/auth/url')
+            if (github.index_type == "html") {
+                ctx.body = github.index_page;
+            }
+            else if (github.index_type == "md") {
+                let html = ctx.helper.md_render(github.index_page);
+                await ctx.render('md.hbs', { html: html })
+            }
+            else {
+                throw { code: 404 };
+            }
         }
     }
 
     async url() {
-        const { ctx, app } = this;
-        let url = await app.redis.get(ctx.host + "url");
-        if (url) {
-            let t = ctx.helper.name2raw(url);
-            let ans  = (await ctx.curl(t + "index.md", {
-                dataType: 'text',
-                timeout: 3000
-            }))
-            if(ans.status==200&&ans.data==ctx.host)
-                ctx.redirect('/')
-            else{
-                await app.redis.del(ctx.host + "url")
-                await ctx.render('url.hbs')
-            }
+        const { ctx, service } = this;
+        const url = ctx.host;
+        let github = await service.github.getFromBase(url);
+        if (github) {
+            ctx.redirect('/')
         }
         else {
             await ctx.render('url.hbs')
@@ -90,24 +35,16 @@ class ArticleController extends Controller {
     }
 
     async url_p() {
-        const { ctx, app } = this;
+        const { ctx, service } = this;
+        const url = ctx.host;
         const payload = ctx.request.body || {};
-        let url = await app.redis.get(ctx.host + "url");
-        if (url) {
-            let t = ctx.helper.name2raw(url);
-            let ans  = (await ctx.curl(t + "index.md", {
-                dataType: 'text',
-                timeout: 3000
-            }))
-            if(ans.status==200&&ans.data==ctx.host)
-                ctx.redirect('/')
-            else{
-                await app.redis.del(ctx.host + "url")
-                await ctx.render('url.hbs')
-            }
+        let github = await service.github.getFromBase(url);
+        if (github) {
+            ctx.redirect('/')
         }
         else {
-            await app.redis.set(ctx.host + "url", payload.url);
+            await service.github.setBaseAndGithub(url, payload.url);
+            ctx.redirect('/')
         }
     }
 }
