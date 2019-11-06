@@ -10,6 +10,9 @@ class ArticleController extends Controller {
             ctx.redirect('/auth/url')
         }
         else {
+            if (ctx.query['reload']) {
+                github = await service.github.updateGithub(github._id, github.base_url, github.github_url);
+            }
             if (github.index_type == "html") {
                 ctx.body = github.index_page;
             }
@@ -18,7 +21,7 @@ class ArticleController extends Controller {
                 await ctx.render('md.hbs', { html: html })
             }
             else {
-                throw { code: 404 };
+                throw { status: 404 };
             }
         }
     }
@@ -27,13 +30,13 @@ class ArticleController extends Controller {
         const { ctx, service } = this;
         const url = ctx.host;
         let github = await service.github.getFromBase(url);
-
+        console.log(url)
         if (!github) {
             ctx.redirect('/auth/url');
         }
         else {
             if (!github.doc_type) {
-                throw { code: 404 }
+                throw { status: 404 }
             }
             else {
                 if (github.doc_type == "html") {
@@ -46,7 +49,7 @@ class ArticleController extends Controller {
                     await ctx.render('doc.hbs', { main: main, side: side });
                 }
                 else {
-                    throw { code: 404 };
+                    throw { status: 404 };
                 }
             }
 
@@ -56,14 +59,20 @@ class ArticleController extends Controller {
 
     async docs() {
         const { ctx, service } = this;
-        const url = ctx.host;
-        let github = await service.github.getFromBase(url);
+        const host = ctx.host;
+        const url = ctx.url.split('?')[0]
+        let github = await service.github.getFromBase(host);
         if (!github) {
             ctx.redirect('/auth/url');
         }
         else {
+
             if (github.github_url) {
-                let ans = await service.doc.findDoc(github.github_url, ctx.url)
+
+                let ans = await service.doc.findDoc(github.github_url, url)
+                if (ctx.query['reload']) {
+                    ans = await service.doc.updateDocAndTime(ans._id, github.github_url, url);
+                }
                 if (ans.type == 'html') {
                     await ctx.render('doc.hbs', { main: ans.data, side: github.doc_side })
                 }
@@ -72,11 +81,11 @@ class ArticleController extends Controller {
                     await ctx.render('doc.hbs', { main: html, side: github.doc_side })
                 }
                 else {
-                    throw { code: 404 }
+                    throw { status: 404 }
                 }
             }
             else {
-                throw { code: 404 }
+                throw { status: 404 }
             }
 
         }

@@ -4,25 +4,37 @@ class GithubService extends Service {
 
     async getFromBase(url) {
         const { ctx, service } = this;
-        return ctx.model.Github.findOne({ base_url: url });
+        let ans = await ctx.model.Github.findOne({ base_url: url });
+        if (new Date().getTime() - ans.updated > 60 * 60 * 1000) {
+            this.updateGithub(ans._id, url, ans.github_url);
+        }
+        return ans;
     }
 
-    async getFromBaseAndGithub(base, github) {
-        const { ctx, service } = this;
-        return ctx.model.Github.findOne({ base_url: base, github_url: github });
-    }
+    // async getFromBaseAndGithub(base, github) {
+    //     const { ctx, service } = this;
+    //     return ctx.model.Github.findOne({ base_url: base, github_url: github });
+    // }
 
     async setBaseAndGithub(base, github) {
         const { ctx } = this;
         let ans = await this.requestGithub(github)
         let old = await this.getFromBase(base)
         if (old) {
-            return ctx.model.Github.update({ _id: old.id }, { ...ans, base_url: base, github_url: github })
+            return await ctx.model.Github.update({ _id: old.id }, { ...ans, base_url: base, github_url: github })
         }
         else {
-            return ctx.model.Github.create({ ...ans, base_url: base, github_url: github })
+            return await ctx.model.Github.create({ ...ans, base_url: base, github_url: github })
         }
 
+    }
+
+    async updateGithub(id, base, github) {
+        const { ctx } = this;
+        let ans = await this.requestGithub(github)
+        let obj = { ...ans, base_url: base, github_url: github, updated: new Date() };
+        await ctx.model.Github.update({ _id: id },obj )
+        return obj;
     }
 
     async requestGithub(url) {
@@ -33,7 +45,7 @@ class GithubService extends Service {
             github.index_type = ans.type;
         }
         else {
-            throw { code: 504 };
+            throw { status: 504 };
         }
         ans = await this.requestGithubDoc(url);
         if (ans) {
@@ -41,7 +53,7 @@ class GithubService extends Service {
             if (ans.type == 'html') {
                 github.doc_index = ans.data;
             }
-            else if(ans.type == 'md') {
+            else if (ans.type == 'md') {
                 github.doc_side = ans.side;
                 github.doc_index = ans.index;
             }

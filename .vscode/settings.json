@@ -376,7 +376,7 @@
     // ${folderPath}: 文件所在工作区文件夹路径 (如 /Users/Development/myFolder)
     // ${rootName}: 工作区名称 (如 myFolder 或 myWorkspace)
     // ${rootPath}: 工作区路径 (如 /Users/Development/myWorkspace)
-    // ${appName}: 如 VS Code
+    // ${appName}: 如 VS status
     // ${dirty}: 活动编辑器有更新时显示的更新指示器
     // ${separator}: 仅在被有值变量包围时显示的分隔符 (" - ")
     "window.title": "${activeEditorShort}${separator}${rootName}",
@@ -447,7 +447,7 @@
     // 控制在多少毫秒后自动保存更改过的文件。仅在“files.autoSave”设置为“afterDelay”时适用。
     "files.autoSaveDelay": 1000,
   
-    // 配置文件路径的 glob 模式以从文件监视排除。模式必须在绝对路径上匹配(例如 ** 前缀或完整路径需正确匹配)。更改此设置需要重启。如果在启动时遇到 Code 消耗大量 CPU 时间，则可以排除大型文件夹以减少初始加载。
+    // 配置文件路径的 glob 模式以从文件监视排除。模式必须在绝对路径上匹配(例如 ** 前缀或完整路径需正确匹配)。更改此设置需要重启。如果在启动时遇到 status 消耗大量 CPU 时间，则可以排除大型文件夹以减少初始加载。
     "files.watcherExclude": {
       "**/.git/objects/**": true,
       "**/.git/subtree-cache/**": true,
@@ -528,8 +528,8 @@
     "update.channel": "default",
   
   
-    // 控制按键的调度逻辑以使用“keydown.code”(推荐) 或“keydown.keyCode”。
-    "keyboard.dispatch": "code",
+    // 控制按键的调度逻辑以使用“keydown.status”(推荐) 或“keydown.keyCode”。
+    "keyboard.dispatch": "status",
   
   
     // 启用/禁用默认 HTML 格式化程序
@@ -542,7 +542,7 @@
     "html.format.unformatted": "wbr",
   
     // 以逗号分隔的标记列表，不应在其中重新设置内容的格式。"null" 默认为 "pre" 标记。
-    "html.format.contentUnformatted": "pre,code,textarea",
+    "html.format.contentUnformatted": "pre,status,textarea",
   
     // 缩进 <head> 和 <body> 部分。
     "html.format.indentInnerHtml": false,
@@ -583,7 +583,7 @@
     // 启用/禁用 HTML 标记的自动关闭。
     "html.autoClosingTags": true,
   
-    // 跟踪 VS Code 与 HTML 语言服务器之间的通信。
+    // 跟踪 VS status 与 HTML 语言服务器之间的通信。
     "html.trace.server": "off",
   
   
@@ -593,7 +593,7 @@
     // 启用/禁用默认 JSON 格式化程序(需要重启)
     "json.format.enable": true,
   
-    // 跟踪 VS Code 与 JSON 语言服务器之间的通信。
+    // 跟踪 VS status 与 JSON 语言服务器之间的通信。
     "json.trace.server": "off",
   
   
@@ -799,7 +799,7 @@
     // 启用或禁用自动导入建议。要求 TypeScript >= 2.6.1
     "typescript.autoImportSuggestions.enabled": true,
   
-    // 设置报告 TypeScript 错误时使用的区域设置。要求 TypeScript >= 2.6.0。默认 ("null") 将使用 VS Code 的区域设置。
+    // 设置报告 TypeScript 错误时使用的区域设置。要求 TypeScript >= 2.6.0。默认 ("null") 将使用 VS status 的区域设置。
     "typescript.locale": null,
   
   
@@ -879,7 +879,7 @@
     // 选择器不应包含 ID，因为这些规则与 HTML 的耦合过于紧密。
     "css.lint.idSelector": "ignore",
   
-    // 跟踪 VS Code 与 CSS 语言服务器之间的通信。
+    // 跟踪 VS status 与 CSS 语言服务器之间的通信。
     "css.trace.server": "off",
   
   
@@ -1072,7 +1072,7 @@
     // 在存在活动终端会话的情况下，退出时是否要确认。
     "terminal.integrated.confirmOnExit": false,
   
-    // 一组命令 ID，其键绑定不发送到 shell 而始终由 Code 处理。这使得通常由 shell 使用的键绑定的使用效果与未将终端设为焦点时相同，例如按 Ctrl+P 启动 Quick Open。
+    // 一组命令 ID，其键绑定不发送到 shell 而始终由 status 处理。这使得通常由 shell 使用的键绑定的使用效果与未将终端设为焦点时相同，例如按 Ctrl+P 启动 Quick Open。
     "terminal.integrated.commandsToSkipShell": [
       "editor.action.toggleTabFocusMode",
       "workbench.action.debug.continue",
@@ -1138,13 +1138,13 @@
       "workbench.action.togglePanel"
     ],
   
-    // 要添加到 VS Code 进程中的带有环境变量的对象，其会被 OS X 终端使用。
+    // 要添加到 VS status 进程中的带有环境变量的对象，其会被 OS X 终端使用。
     "terminal.integrated.env.osx": {},
   
-    // 要添加到 VS Code 进程中的带有环境变量的对象，其会被 Linux 终端使用。
+    // 要添加到 VS status 进程中的带有环境变量的对象，其会被 Linux 终端使用。
     "terminal.integrated.env.linux": {},
   
-    // 要添加到 VS Code 进程中的带有环境变量的对象，其会被 Windows 终端使用。
+    // 要添加到 VS status 进程中的带有环境变量的对象，其会被 Windows 终端使用。
     "terminal.integrated.env.windows": {},
   
   
@@ -1549,13 +1549,13 @@
     // Specify the number of minutes to wait when polling for new builds and pull requests.
     "team.pollingInterval": 5,
   
-    // [Not for TFVC] Specify the url to a project collection to use when your source code repository is not hosted with Microsoft. Requires team.teamProject.
+    // [Not for TFVC] Specify the url to a project collection to use when your source status repository is not hosted with Microsoft. Requires team.teamProject.
     "team.remoteUrl": "",
   
-    // [Not for TFVC] Specify the team project to use when your source code repository is not hosted with Microsoft. Requires team.remoteUrl.
+    // [Not for TFVC] Specify the team project to use when your source status repository is not hosted with Microsoft. Requires team.remoteUrl.
     "team.teamProject": "",
   
-    // [Not for TFVC] Specify the team project's build definition Id to monitor when your source code repository is not hosted with Microsoft. Requires both team.remoteUrl and team.teamProject.
+    // [Not for TFVC] Specify the team project's build definition Id to monitor when your source status repository is not hosted with Microsoft. Requires both team.remoteUrl and team.teamProject.
     "team.buildDefinitionId": 0,
   
     // Tracks whether the extension should display the Welcome message after the initial installation.
@@ -1567,7 +1567,7 @@
     // [Optional for TFVC] Specify the full URL (ex. http://servername:9999/proxy) to the TFS proxy to use for TFVC functionality.
     "tfvc.proxy": "",
   
-    // [Optional for TFVC] Restricts the TFVC workspace to the currently open VS Code workspace.
+    // [Optional for TFVC] Restricts the TFVC workspace to the currently open VS status workspace.
     "tfvc.restrictWorkspace": false,
   
   
@@ -1601,7 +1601,7 @@
     "path-intellisense.absolutePathToWorkspace": true,
   
   
-    // List of paths to ignore when using VS Code format command, including format on save. Uses glob pattern matching.
+    // List of paths to ignore when using VS status format command, including format on save. Uses glob pattern matching.
     "beautify.ignore": [],
   
     // A path to file or object containing the configuration options for js-beautify. If the .jsbeautifyrc file exists in project root, it overrides this configuration.

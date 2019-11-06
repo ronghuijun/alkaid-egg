@@ -18,7 +18,7 @@ exports.formatTime = time => moment(time).format('YYYY-MM-DD HH:mm:ss')
 
 exports.success = ({ ctx, res = null, msg = '请求成功' }) => {
   ctx.body = {
-    code: 0,
+    status: 0,
     data: res,
     msg
   }
@@ -27,7 +27,7 @@ exports.success = ({ ctx, res = null, msg = '请求成功' }) => {
 
 exports.no_login = ({ ctx, res = null, msg = '没有登录' }) => {
   ctx.body = {
-    code: -1,
+    status: -1,
     data: res,
     msg
   }
@@ -36,7 +36,7 @@ exports.no_login = ({ ctx, res = null, msg = '没有登录' }) => {
 
 exports.can_not_login = ({ ctx, res = null, msg = '用户名或密码错误' }) => {
   ctx.body = {
-    code: 100,
+    status: 100,
     data: res,
     msg
   }
@@ -46,7 +46,7 @@ exports.can_not_login = ({ ctx, res = null, msg = '用户名或密码错误' }) 
 
 exports.exist_name = ({ ctx, res = null, msg = '用户名已经存在' }) => {
   ctx.body = {
-    code: 110,
+    status: 110,
     data: res,
     msg
   }
