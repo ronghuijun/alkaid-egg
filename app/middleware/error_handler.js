@@ -20,6 +20,9 @@ module.exports = (option, app) => {
       if (status === 422) {
         ctx.body.detail = err.errors
       }
+      if (status === 504) {
+        ctx.body.detail = "请求超时"
+      }
       ctx.status = 200
     }
   }

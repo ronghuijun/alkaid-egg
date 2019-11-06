@@ -4,9 +4,11 @@ module.exports = app => {
         base_url: String,
         github_utl: String,
         index_page: String,
-        releases_num: Number,
-        has_doc: Boolean,
+        index_type :String,
+        // releases_num: Number,
+        doc_yml: String,
+        doc_index: String,
         updated: { type: Date, default: Date.now },
     });
-    return mongoose.model('User', schema)
+    return mongoose.model('Github', schema)
 };

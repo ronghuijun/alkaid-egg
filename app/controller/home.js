@@ -20,11 +20,8 @@ class HomeController extends Controller {
 
     async test() {
         const { ctx, service } = this;
-        const result = await ctx.curl('https://dev.tencent.com/u/ymz16193335/p/test/git/raw/master/assets/0x_trans_fix/lang/zh_cn.lang', {
-            dataType: 'text',
-            timeout: 3000
-        })
-       
+        const result = await service.github.requestGithub('jihuayu/blog-gitalk')
+        console.log(result)
         ctx.body = result;
     }
 }

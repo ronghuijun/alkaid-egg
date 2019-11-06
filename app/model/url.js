@@ -1,11 +1,11 @@
 module.exports = app => {
     const mongoose = app.mongoose;
     const schema = new mongoose.Schema({
-        doc_url: String,
-        doc_index: String,
-        doc_yml: String,
+        github_url: String,
+        github_file: String,
+        str: String,
         updated: { type: Date, default: Date.now },
 
     });
-    return mongoose.model('doc', schema)
+    return mongoose.model('url', schema)
 };
