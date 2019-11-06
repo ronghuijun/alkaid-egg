@@ -9,7 +9,7 @@ class GithubService extends Service {
 
     async getFromBaseAndGithub(base, github) {
         const { ctx, service } = this;
-        return ctx.model.Github.findOne({ base_url: base, github_utl: github });
+        return ctx.model.Github.findOne({ base_url: base, github_url: github });
     }
 
     async setBaseAndGithub(base, github) {
@@ -17,10 +17,10 @@ class GithubService extends Service {
         let ans = await this.requestGithub(github)
         let old = await this.getFromBase(base)
         if (old) {
-            return ctx.model.Github.update({ _id: old.id }, { ...ans, base_url: base, github_utl: github })
+            return ctx.model.Github.update({ _id: old.id }, { ...ans, base_url: base, github_url: github })
         }
         else {
-            return ctx.model.Github.create({ ...ans, base_url: base, github_utl: github })
+            return ctx.model.Github.create({ ...ans, base_url: base, github_url: github })
         }
 
     }

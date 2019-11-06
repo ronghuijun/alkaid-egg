@@ -2,7 +2,7 @@ module.exports = app => {
     const mongoose = app.mongoose;
     const schema = new mongoose.Schema({
         base_url: String,
-        github_utl: String,
+        github_url: String,
         index_page: String,
         index_type :String,
         // releases_num: Number,

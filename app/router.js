@@ -18,5 +18,6 @@ module.exports = app => {
 
   router.get('/', controller.article.index);
   router.get('/doc', controller.article.doc);
+  router.get('/doc/**', controller.article.docs);
 
 };

@@ -54,6 +54,35 @@ class ArticleController extends Controller {
         }
     }
 
+    async docs() {
+        const { ctx, service } = this;
+        const url = ctx.host;
+        let github = await service.github.getFromBase(url);
+        if (!github) {
+            ctx.redirect('/auth/url');
+        }
+        else {
+            if (github.github_url) {
+                let ans = await service.doc.findDoc(github.github_url, ctx.url)
+                if (ans.type == 'html') {
+                    await ctx.render('doc.hbs', { main: ans.data, side: github.doc_side })
+                }
+                else if (ans.type == 'md') {
+                    let html = ctx.helper.md_render(ans.data)
+                    await ctx.render('doc.hbs', { main: html, side: github.doc_side })
+                }
+                else {
+                    throw { code: 404 }
+                }
+            }
+            else {
+                throw { code: 404 }
+            }
+
+        }
+    }
+
+
     async url() {
         const { ctx, service } = this;
         const url = ctx.host;
