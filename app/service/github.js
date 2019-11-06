@@ -52,7 +52,6 @@ class GithubService extends Service {
         }
     }
 
-
     async requestGithubDoc(github) {
         const { ctx } = this;
         let ans = await ctx.helper.requestGithub(ctx, github, 'doc/index.html')
@@ -70,13 +69,6 @@ class GithubService extends Service {
         }
     }
 
-    async update(id, user) {
-        const { ctx } = this;
-        delete user.name;
-        delete user.password;
-        delete user._id;
-        return ctx.model.User.update({ _id: id }, user)
-    }
 }
 
 module.exports = GithubService;

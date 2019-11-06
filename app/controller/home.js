@@ -20,6 +20,7 @@ class HomeController extends Controller {
 
     async test() {
         const { ctx, service } = this;
+        console.log(ctx.req.socket.remoteAddress)
         const result = await service.github.setBaseAndGithub("1",'jihuayu/blog-gitalk')
         console.log(result)
         ctx.body = result;
