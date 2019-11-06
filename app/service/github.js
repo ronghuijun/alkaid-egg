@@ -8,14 +8,12 @@ class GithubService extends Service {
     }
 
     async setBaseAndGithub(base, github) {
-        const { ctx, service } = this;
+        const { ctx } = this;
         let ans = await this.requestGithub(github)
-
-        return ctx.model.Github.add({ base_url: base, github_utl: github })
+        return ctx.model.Github.create({ ...ans, base_url: base, github_utl: github })
     }
 
     async requestGithub(url) {
-        const { ctx, service } = this;
         let ans = await this.requestGithubIndex(url);
         let github = {};
         if (ans) {
@@ -38,7 +36,7 @@ class GithubService extends Service {
     }
 
     async requestGithubIndex(github) {
-        const { ctx, service } = this;
+        const { ctx } = this;
         let ans = await ctx.helper.requestGithub(ctx, github, 'index.html')
         if (ans.status != 200) {
             let ans = await ctx.helper.requestGithub(ctx, github, 'index.md')
@@ -56,7 +54,7 @@ class GithubService extends Service {
 
 
     async requestGithubDoc(github) {
-        const { ctx, service } = this;
+        const { ctx } = this;
         let ans = await ctx.helper.requestGithub(ctx, github, 'doc/index.html')
         if (ans.status != 200) {
             let ans = await ctx.helper.requestGithub(ctx, github, 'doc/summary.yml')
@@ -73,7 +71,7 @@ class GithubService extends Service {
     }
 
     async update(id, user) {
-        const { ctx, service } = this;
+        const { ctx } = this;
         delete user.name;
         delete user.password;
         delete user._id;
