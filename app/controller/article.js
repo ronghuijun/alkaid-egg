@@ -7,7 +7,7 @@ class ArticleController extends Controller {
         if (url) {
             let t = ctx.helper.name2raw(url);
             let curl_url = `${t}${ctx.url}`;
-            let body = await app.redis.get(`${url}${ctx.url}`);
+            let body //= await app.redis.get(`${url}${ctx.url}`);
             let body_type = "html";
             if (!body) {
                 body = (await ctx.curl(curl_url, {
@@ -27,21 +27,27 @@ class ArticleController extends Controller {
                     }
                 }
                 else {
-                    body = (await ctx.curl(curl_url + "index.html", {
+                    let ans = (await ctx.curl(curl_url + "index.html", {
                         dataType: 'text',
                         timeout: 3000
-                    })).data
-                    if (body) {
+                    }))
+
+                    if (ans.status==200) {
                         body_type = 'html'
+                        body = ans.data
                     }
                     else {
-                        body = (await ctx.curl(curl_url + "/index.md", {
+                        let ans  = (await ctx.curl(curl_url + "index.md", {
                             dataType: 'text',
                             timeout: 3000
-                        })).data
-                        if (body) {
+                        }))
+                        if (ans.status==200) {
                             body = ctx.helper.md_render(body)
                             body_type = 'md'
+                            body = ans.data
+                        }
+                        else{
+                            ctx.redirect(`${ctx.url}README.md`)
                         }
                     }
                 }
@@ -56,8 +62,6 @@ class ArticleController extends Controller {
             else {
                 await ctx.render("code.hbs", { code: body })
             }
-            console.log(body)
-            console.log(body_type)
         }
         else {
             ctx.redirect('/auth/url')
@@ -68,7 +72,17 @@ class ArticleController extends Controller {
         const { ctx, app } = this;
         let url = await app.redis.get(ctx.host + "url");
         if (url) {
-            ctx.redirect('/')
+            let t = ctx.helper.name2raw(url);
+            let ans  = (await ctx.curl(t + "index.md", {
+                dataType: 'text',
+                timeout: 3000
+            }))
+            if(ans.status==200&&ans.data==ctx.host)
+                ctx.redirect('/')
+            else{
+                await app.redis.del(ctx.host + "url")
+                await ctx.render('url.hbs')
+            }
         }
         else {
             await ctx.render('url.hbs')
@@ -80,7 +94,17 @@ class ArticleController extends Controller {
         const payload = ctx.request.body || {};
         let url = await app.redis.get(ctx.host + "url");
         if (url) {
-            ctx.redirect('/')
+            let t = ctx.helper.name2raw(url);
+            let ans  = (await ctx.curl(t + "index.md", {
+                dataType: 'text',
+                timeout: 3000
+            }))
+            if(ans.status==200&&ans.data==ctx.host)
+                ctx.redirect('/')
+            else{
+                await app.redis.del(ctx.host + "url")
+                await ctx.render('url.hbs')
+            }
         }
         else {
             await app.redis.set(ctx.host + "url", payload.url);

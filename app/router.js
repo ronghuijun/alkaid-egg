@@ -4,15 +4,15 @@ module.exports = app => {
   const { router, controller } = app;
 
 
-  router.get('/test', controller.home.test);
+  // router.get('/test', controller.home.test);
 
-  router.get('/auth/login', controller.home.login);
-  router.post('/auth/login', controller.auth.login);
+  // router.get('/auth/login', controller.home.login);
+  // router.post('/auth/login', controller.auth.login);
 
-  router.get('/auth/signup', controller.home.signup);
-  router.post('/auth/signup', controller.auth.signup);
+  // router.get('/auth/signup', controller.home.signup);
+  // router.post('/auth/signup', controller.auth.signup);
 
-  router.get('/auth/logout', controller.auth.logout);
+  // router.get('/auth/logout', controller.auth.logout);
   router.get('/auth/url', controller.article.url);
   router.post('/auth/url', controller.article.url_p);
 
