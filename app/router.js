@@ -17,5 +17,6 @@ module.exports = app => {
   router.post('/auth/url', controller.article.url_p);
 
   router.get('/', controller.article.index);
+  router.get('/doc', controller.article.doc);
 
 };

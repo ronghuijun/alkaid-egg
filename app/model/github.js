@@ -6,7 +6,8 @@ module.exports = app => {
         index_page: String,
         index_type :String,
         // releases_num: Number,
-        doc_yml: String,
+        doc_type: String,
+        doc_side: String,
         doc_index: String,
         updated: { type: Date, default: Date.now },
     });

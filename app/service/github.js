@@ -16,11 +16,10 @@ class GithubService extends Service {
         const { ctx } = this;
         let ans = await this.requestGithub(github)
         let old = await this.getFromBase(base)
-        console.log(old)
         if (old) {
             return ctx.model.Github.update({ _id: old.id }, { ...ans, base_url: base, github_utl: github })
         }
-        else{
+        else {
             return ctx.model.Github.create({ ...ans, base_url: base, github_utl: github })
         }
 
@@ -38,11 +37,13 @@ class GithubService extends Service {
         }
         ans = await this.requestGithubDoc(url);
         if (ans) {
+            github.doc_type = ans.type;
             if (ans.type == 'html') {
                 github.doc_index = ans.data;
             }
-            else {
-                github.doc_yml = ans.data;
+            else if(ans.type == 'md') {
+                github.doc_side = ans.side;
+                github.doc_index = ans.index;
             }
         }
         return github;
@@ -69,12 +70,14 @@ class GithubService extends Service {
         const { ctx } = this;
         let ans = await ctx.helper.requestGithub(ctx, github, 'doc/index.html')
         if (ans.status != 200) {
-            let ans = await ctx.helper.requestGithub(ctx, github, 'doc/summary.yml')
+            let ans = await ctx.helper.requestGithub(ctx, github, 'doc/summary.md')
             if (ans.status != 200) {
                 return undefined
             }
             else {
-                return { type: 'yml', data: ans.data };
+                let side = ans.data;
+                let ans1 = await ctx.helper.requestGithub(ctx, github, 'doc/index.md')
+                return { type: 'md', side: side, index: ans1.data };
             }
         }
         else {

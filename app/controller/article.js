@@ -1,4 +1,5 @@
 const Controller = require('egg').Controller;
+const yaml = require('js-yaml');
 
 class ArticleController extends Controller {
     async index() {
@@ -19,6 +20,37 @@ class ArticleController extends Controller {
             else {
                 throw { code: 404 };
             }
+        }
+    }
+
+    async doc() {
+        const { ctx, service } = this;
+        const url = ctx.host;
+        let github = await service.github.getFromBase(url);
+
+        if (!github) {
+            ctx.redirect('/auth/url');
+        }
+        else {
+            if (!github.doc_type) {
+                throw { code: 404 }
+            }
+            else {
+                if (github.doc_type == "html") {
+                    ctx.body = github.doc_index;
+                    return;
+                }
+                else if (github.doc_type == "md") {
+                    let main = ctx.helper.md_render(github.doc_index);
+                    let side = ctx.helper.md_render(github.doc_side);
+                    await ctx.render('doc.hbs', { main: main, side: side });
+                }
+                else {
+                    throw { code: 404 };
+                }
+            }
+
+
         }
     }
 

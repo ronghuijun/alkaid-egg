@@ -2,6 +2,13 @@ const moment = require('moment')
 const crypto = require('crypto');
 const md = require('markdown-it')();
 const hljs = require('highlight.js')
+exports.isobj = function (conditional, options) {
+  if (typeof conditional == 'object') {
+    options.fn(this);
+  } else {
+    options.inverse(this);
+  }
+};
 
 exports.render_md = (str) => {
   return md.render(str);
@@ -64,9 +71,9 @@ exports.code_render = (str) => {
   return hljs.highlightAuto(str).value;
 }
 
-exports.requestGithub = async(ctx, github, file) => {
+exports.requestGithub = async (ctx, github, file) => {
   let ans;
-  try{
+  try {
     ans = await ctx.curl(ctx.helper.name2raw(github) + file, {
       dataType: 'text',
       timeout: 3000
@@ -77,6 +84,6 @@ exports.requestGithub = async(ctx, github, file) => {
     ans = {};
     ans.status = 0;
   }
-  console.log('curl'+ctx.helper.name2raw(github) + file+":"+ans)
+  console.log('curl' + ctx.helper.name2raw(github) + file + ":" + ans)
   return ans;
 }

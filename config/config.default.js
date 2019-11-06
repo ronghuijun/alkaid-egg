@@ -60,8 +60,9 @@ module.exports = appInfo => {
     defaultExtension: '.hbs',
     mapping: {
       '.hbs': 'handlebars',
+      '.nj': 'nunjucks',
     },
-  }; 
+  };
 
 
   config.redis = {
