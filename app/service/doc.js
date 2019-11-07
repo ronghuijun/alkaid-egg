@@ -57,7 +57,7 @@ class DocService extends Service {
                     return { data: ans.data, type: 'md' };
                 }
                 else {
-                    let ans1 = await ctx.model.Url.update({ _id: id }, { github_url: github, github_file: file, str: ans.data, str_type: 'code', updated: new Date() });
+                    await ctx.model.Url.update({ _id: id }, { github_url: github, github_file: file, str: ans.data, str_type: 'code', updated: new Date() });
                     return { data: ans.data, type: 'code' };
                 }
             }
