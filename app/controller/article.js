@@ -102,7 +102,6 @@ class ArticleController extends Controller {
             if (github.github_url) {
 
                 let ans = await service.doc.findDoc(github.github_url, url)
-                console.log(ans)
                 if (ctx.query['reload']) {
                     ans = await service.doc.updateDocAndTime(github.github_url, url);
                 }

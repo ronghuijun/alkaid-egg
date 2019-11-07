@@ -8,7 +8,7 @@ module.exports = appInfo => {
 
   // add your config here
   // 加载 errorHandler 中间件
-  config.middleware = ['errorHandler'];
+  config.middleware = ['errorHandler','edit'];
 
   // 只对 /api 前缀的 url 路径生效
   config.errorHandler = {
@@ -73,6 +73,7 @@ module.exports = appInfo => {
       db: 0,
     },
   }
+
 
   return config
 }

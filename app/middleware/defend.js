@@ -1,11 +1,13 @@
 module.exports = (option, app) => {
     return async function (ctx, next) {
-        if (app.redis.get(ctx.req.socket.remoteAddress)) {
-            ctx.body = "太快了"
+        let ip = ctx.req.socket.remoteAddress
+        let times = app.redis.get(ip);
+        if (times < 5) {
+            app.redis.set(ip, times + 1, 'ex', '5')
+            await next();
         }
         else {
-            pp.redis.set(ctx.req.socket.remoteAddress, "1", "ex", 1);
-            await next();
+            throw { statue: 300 }
         }
     }
 }

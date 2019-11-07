@@ -5,7 +5,7 @@ class GithubService extends Service {
     async getFromBase(url) {
         const { ctx, service } = this;
         let ans = await ctx.model.Github.findOne({ base_url: url });
-        if (new Date().getTime() - ans.updated > 60 * 60 * 1000) {
+        if (ans && new Date().getTime() - ans.updated > 60 * 60 * 1000) {
             this.updateGithub(ans._id, url, ans.github_url);
         }
         return ans;
