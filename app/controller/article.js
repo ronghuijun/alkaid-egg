@@ -30,7 +30,6 @@ class ArticleController extends Controller {
         const { ctx, service } = this;
         const url = ctx.host;
         let github = await service.github.getFromBase(url);
-        console.log(url)
         if (!github) {
             ctx.redirect('/auth/url');
         }
@@ -90,7 +89,40 @@ class ArticleController extends Controller {
 
         }
     }
+    async all() {
+        const { ctx, service } = this;
+        const host = ctx.host;
+        const url = ctx.url.split('?')[0]
+        let github = await service.github.getFromBase(host);
+        if (!github) {
+            ctx.redirect('/auth/url');
+        }
+        else {
 
+            if (github.github_url) {
+
+                let ans = await service.doc.findDoc(github.github_url, url)
+                console.log(ans)
+                if (ctx.query['reload']) {
+                    ans = await service.doc.updateDocAndTime(github.github_url, url);
+                }
+                if (ans.type == 'html') {
+                    ctx.body = html;
+                }
+                else if (ans.type == 'md') {
+                    let html = ctx.helper.md_render(ans.data)
+                    await ctx.render('md.hbs', { html: html })
+                }
+                else  if (ans.type == 'code') {
+                    await ctx.render('code.hbs', { code: ans.data })                    
+                }
+            }
+            else {
+                throw { status: 404 }
+            }
+
+        }
+    }
 
     async url() {
         const { ctx, service } = this;
