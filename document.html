@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>file</title>
+  <link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css?t=1572350921010" media="all">
+  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+
+
+  <style>
+    body{
+        margin: 10px; 
+        background: #0C0C0C;
+        }
+    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+  
+  </style>
+
+</head>
+
+<body>
+    <ul class="layui-nav" lay-filter="">
+        <li class="layui-nav-item"><a href=""><img src="00.jpg" class="layui-nav-img"></a> </li>
+        <li class="layui-nav-item"><a href="">项目主页</a></li>
+        <li class="layui-nav-item "><a href="">发布</a></li>
+    </ul>
+   
+    <div  align="center" style="height:100%;">
+        <div style="width: 50%;height:680px;border:1px solid black;">   {{body}}</div>
+     
+    </div>
+  
+
+  
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+      var element = layui.element;
+      
+      //…
+    });
+    </script>
+</body>
+</html>        
+        
